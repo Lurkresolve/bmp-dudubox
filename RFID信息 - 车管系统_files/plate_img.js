@@ -4,7 +4,7 @@
  * @param {number} height
  * @returns {Promise<string>} base64
  */
-async function renderPlate(plateText, width = 600, height = 98) {
+async function renderPlate(plateText, width = 600, height = 100) {
   await document.fonts.ready;
 
   const canvas = document.createElement("canvas");
@@ -30,7 +30,7 @@ async function renderPlate(plateText, width = 600, height = 98) {
   ]);
 
   // 底层：底图
-  ctx.drawImage(bgImg, 0, 0, width, height);
+  ctx.drawImage(bgImg, 0, 0, 600, 100);
 
   // 中层文字设置
   ctx.font = "68px PlateFont";
@@ -48,7 +48,7 @@ async function renderPlate(plateText, width = 600, height = 98) {
   ctx.fillText(plateText, width / 2, height / 2);
 
   // 顶层：波.png
-  ctx.drawImage(topImg, 0, 28, width, height);
+  ctx.drawImage(topImg, 0, 28, 600, 65);
 
   return canvas.toDataURL("image/png");
 }
