@@ -30,7 +30,7 @@ async function renderPlate(plateText, width = 600, height = 100) {
   ]);
 
   // 底层：底图
-  ctx.drawImage(bgImg, 0, 0, 600, 100);
+  ctx.drawImage(bgImg, 0, 0, 600, 98);
 
   // 中层文字设置
   ctx.font = "68px PlateFont";
