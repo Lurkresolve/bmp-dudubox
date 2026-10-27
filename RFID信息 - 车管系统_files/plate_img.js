@@ -48,7 +48,7 @@ async function renderPlate(plateText, width = 600, height = 100) {
   ctx.fillText(plateText, width / 2, height / 2);
 
   // 顶层：波.png
-  ctx.drawImage(topImg, 0, 28, 600, 65);
+  ctx.drawImage(topImg, 0, 0, 600, 98);
 
   return canvas.toDataURL("image/png");
 }
