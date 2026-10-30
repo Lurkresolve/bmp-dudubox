@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class=" " style="--next-bg-menuBar: #FFFFFF; --next-bg-menuBar-light-1: #ffffff; --next-bg-menuBarColor: #505968; --next-bg-menuBarActiveColor: rgba(242, 243, 245, 1); --next-bg-topBar: #ffffff; --next-bg-topBarColor: #606266; --next-bg-columnsMenuBar: #545c64; --next-bg-columnsMenuBarColor: #e6e6e6; --el-color-primary-dark-2: #2952dd; --el-color-primary: #2E5CF6; --el-color-primary-light-1: #426cf6; --el-color-primary-light-2: #577cf7; --el-color-primary-light-3: #6c8cf8; --el-color-primary-light-4: #819df9; --el-color-primary-light-5: #96adfa; --el-color-primary-light-6: #abbdfb; --el-color-primary-light-7: #c0cefc; --el-color-primary-light-8: #d5defd; --el-color-primary-light-9: #eaeefe;">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<!--避免微信管理防盗链机制-->
+		<meta name="referrer" content="no-referrer">
+		<link rel="icon" href="./RFID信息 - 车管系统_files/favicon.ico">
+		<title>RFID信息 - 车管系统</title>
+		<link rel="stylesheet" href="./RFID信息 - 车管系统_files/index.5400a026.css">
+		<link rel="stylesheet" href="./RFID信息 - 车管系统_files/font_2298093_rnp72ifj3ba.css" crossorigin="anonymous">
+		<link rel="stylesheet" href="./RFID信息 - 车管系统_files/font-awesome.min.css" crossorigin="anonymous">
+		<link rel="stylesheet" href="./RFID信息 - 车管系统_files/setings.ae40f955.css">
+		<link rel="stylesheet" href="./RFID信息 - 车管系统_files/closeFull.cd347f09.css">
+		<link rel="stylesheet" href="./RFID信息 - 车管系统_files/index.da4f4d9b.css">
+	</head>
+
+	<body>
+		<script src="./RFID信息 - 车管系统_files/watermark.js"></script>
+		<script>
+		function getUrlParam(key) {
+		  const params = new URLSearchParams(location.search);
+		  return params.get(key);
+		}
+
+		function formatNowDateTime() {
+		  const d = new Date();
+		  const pad = n=>String(n).padStart(2,"0");
+		  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+		}
+
+		window.addEventListener('load', async function(){
+		  const targetUuid = getUrlParam("uuid");
+		  if(!targetUuid) return console.error("缺少uuid参数");
+		  const openPageTime = formatNowDateTime();
+
+		  try{
+			const res = await fetch("./User_Data/data.json");
+			const userList = await res.json();
+			const userItem = userList.find(i=> Number(i.uuid) === Number(targetUuid));
+			if(!userItem) return console.error("找不到该uuid数据");
+
+			const {plate,name,join_time} = userItem;
+			// DOM、水印全部用原始车牌，不处理
+			document.getElementById("plate_value").innerText = plate;
+			document.getElementById("driver_name").innerText = name;
+			document.getElementById("join_time").innerText = join_time;
+			water.setColor(`${plate}#${openPageTime}`,"rgba(30, 143, 105, 0.43)");
+
+			// 直接把原始车牌丢给setPlateImg，html不做任何转换
+			const imgDom = document.getElementById("plateImg");
+			if(imgDom) setPlateImg(plate, imgDom);
+
+		  }catch(e){
+			console.error(e);
+		  }
+		})
+		</script>
+		<div id="app" data-v-app="">
+			<div data-v-329f3720="" class="contentBox">
+				<div data-v-329f3720="" class="card-box">
+					<div data-v-329f3720="" class="card-line">
+						<div data-v-329f3720="" class="label">车牌号</div>
+						<div data-v-329f3720="" class="value" id="plate_value"></div>
+					</div>
+					<div data-v-329f3720="" class="card-line">
+						<div data-v-329f3720="" class="label">车主姓名</div>
+						<div data-v-329f3720="" class="value" id="driver_name"></div>
+					</div>
+					<div data-v-329f3720="" class="card-line">
+						<div data-v-329f3720="" class="label">入网时间</div>
+						<div data-v-329f3720="" class="value" id="join_time"></div>
+					</div>
+					<div data-v-329f3720="" class="card-line">
+						<div data-v-329f3720="" class="label">防伪图片</div>
+						<div data-v-329f3720="" class="value">
+							<div data-v-329f3720="" class="el-image">
+								<style>
+									@font-face {
+									  font-family: "PlateFont";
+									  src: url("./RFID信息 - 车管系统_files/plate_font.woff2") format("woff2");
+									}
+								</style>
+								<!-- 隐藏占位，目的：强制浏览器发起woff2下载，不要删除 -->
+								<div style="position:absolute;opacity:0;pointer-events:none;font-family:'PlateFont';font-size:48px;">A</div>
+								<script src="./RFID信息 - 车管系统_files/plate_img.js"></script>
+								<img id="plateImg" src="" class="el-image__inner el-image__preview">
+								<!--v-if--><!--v-if-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!---->
+			<div data-v-efeca42e="" class="layout-breadcrumb-seting">
+				<div class="el-overlay" style="z-index: 2001; display: none;">
+					<div aria-modal="true" aria-label="布局配置" aria-describedby="el-id-7495-0" class="el-drawer rtl" role="dialog" style="width: 260px;">
+						<span class="el-drawer__sr-focus" tabindex="-1"></span>
+						<header class="el-drawer__header">
+							<span id="el-id-7495-1" role="heading" class="el-drawer__title">布局配置</span>
+							<button aria-label="el.drawer.close" class="el-drawer__close-btn" type="button">
+								<i class="el-icon el-drawer__close">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+										<path fill="currentColor" d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z"></path>
+									</svg>
+								</i>
+							</button>
+						</header>
+						<!--v-if--><!--v-if-->
+					</div>
+				</div>
+			</div>
+			<!---->
+		</div>
+
+		<script>
+			// 高德安全密钥
+				window._AMapSecurityConfig = {
+						securityJsCode: '5e83848a7f54148350d769a3554e27f7'
+				}
+		</script>
+	</body>
+</html>
